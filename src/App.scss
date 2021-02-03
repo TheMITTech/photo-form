@@ -1,0 +1,15 @@
+@import "~antd/dist/antd.css";
+
+.main-container {
+  padding: 20px;
+  width: 60%; /* update to be adaptive with media queries */
+  margin: 0 auto;
+
+  .image-info-form-container {
+    .image-preview {
+      max-width: 400px;
+      max-height: 200px;
+      padding-bottom: 20px;
+    }
+  }
+}
