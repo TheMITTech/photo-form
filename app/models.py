@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime
 from sqlalchemy.orm import relationship
 
 from .database import Base
@@ -11,4 +11,14 @@ class Photo(Base):
     uploader = Column(String)
     attribution = Column(String)
     caption = Column(String, index=False)
-    object_id = Column(String) # the reference to object storage, we will use the s3 api to get a url
+    dt_uploaded = Column(DateTime, index=False)
+    dt_taken = Column(DateTime)
+
+
+    def get_obj_id(self) -> str:
+        """
+        constructs an object ID for the photo using the taken date, uploader kerb, and filename
+
+        returns: string
+        """
+        return f"{self.dt_taken.strftime('%Y%m%dT%H%M%S')}Z-{self.uploader}-{self.filename}"
