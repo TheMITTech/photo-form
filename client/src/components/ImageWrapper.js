@@ -7,9 +7,11 @@ import {
   message,
   Form,
   Input,
+  InputNumber,
   Button,
   Select,
   Divider,
+  Space,
 } from "antd";
 import { DatePicker } from "../components";
 const { Title, Paragraph, Text, Link } = Typography;
@@ -28,6 +30,22 @@ const { Option } = Select;
 function ImageForm(props) {
   const [imgForm] = Form.useForm();
   var imgDate = dayjs(props.imgInfo["date"]);
+
+  function formatImageFormData(allFields) {
+    // the handling of default values doesn't really work right now,
+    // I need to use initialValues instead but couldn't get it to work
+    // TODO: remove the need to check if things are defined here
+    return {
+      event_name: allFields[0].value,
+      department: allFields[1].value ? allFields[1].value : "fto",
+      volume: allFields[2].value ? allFields[2].value : props.defaultVolume,
+      issue: allFields[3].value ? allFields[3].value : props.defaultIssue,
+      dt_taken: allFields[4].value ? allFields[4].value : imgDate,
+      caption: allFields[5].value,
+      attribution: allFields[6].value,
+    };
+  }
+
   console.log(imgDate);
   console.log(dayjs("2019-11-10T03:53:31-05:00"));
   return (
@@ -39,23 +57,32 @@ function ImageForm(props) {
       <img src={URL.createObjectURL(props.file)} className="image-preview" />
       <Form
         form={imgForm}
-        onFieldsChange={(changedFields, allFields) =>
-          props.handleUpdate(allFields)
-        }
+        onFieldsChange={(changedFields, allFields) => {
+          let formattedFields = formatImageFormData(allFields);
+          props.handleUpdate(formattedFields);
+        }}
       >
         <Form.Item label="Event/Topic" name="event">
           <Input placeholder="Men's Soccer vs. WPI" />
         </Form.Item>
-        <Form.Item label="Department" name="department">
-          <Select placeholder="Select">
-            <Option value="spo">SPO</Option>
-            <Option value="fto">FTO</Option>
-            <Option value="rtz">RTZ</Option>
-            <Option value="cl">CL</Option>
-          </Select>
-        </Form.Item>
+        <Space>
+          <Form.Item label="Department" name="department">
+            <Select placeholder="Select" defaultValue="fto">
+              <Option value="spo">SPO</Option>
+              <Option value="fto">FTO</Option>
+              <Option value="rtz">RTZ</Option>
+              <Option value="cl">CL</Option>
+            </Select>
+          </Form.Item>
+          <Form.Item label="Volume" name="volume">
+            <InputNumber defaultValue={props.defaultVolume} />
+          </Form.Item>
+          <Form.Item label="Issue" name="issue">
+            <InputNumber defaultValue={props.defaultIssue} />
+          </Form.Item>
+        </Space>
         <Form.Item
-          label="Date/Time Taken (from EXIF if available)"
+          label="Date/Time Taken (autofilled from EXIF if available)"
           name="datetime"
         >
           <DatePicker
@@ -68,7 +95,7 @@ function ImageForm(props) {
         <Form.Item label="Caption" name="caption">
           <Input.TextArea placeholder="See the wiki for how to write a good caption" />
         </Form.Item>
-        <Form.Item label="Attribution (if not yourself)" name="attribution">
+        <Form.Item label="Attribution (or your full name)" name="attribution">
           <Input placeholder="Photo Provided by Dance Troupe" />
         </Form.Item>
         {/* <Button

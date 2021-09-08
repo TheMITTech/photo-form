@@ -15,10 +15,14 @@ class S3UploadInfo(BaseModel):
 # common
 class PhotoBase(BaseModel):
     filename: str
+    volume: int
+    issue: int
+    event_name: str
+    department: str
     caption: str 
     uploader: str
     attribution: str
-    dt_uploaded: datetime # must be UTC
+    dt_uploaded: Optional[datetime] # must be UTC
     dt_taken: datetime # must be UTC
 
     # if I want to allow edits and store the history a pointer to previous versions would be good
@@ -27,10 +31,13 @@ class PhotoBase(BaseModel):
         schema_extra = {
             "example": {
                 "filename": "DSC1002.JPG",
+                "volume": 141,
+                "issue": 18,
+                "event_name": "Head of the Charles",
+                "department": "fto",
                 "caption": "Rowers from across the country compete at the Head of the Charles Regatta on Saturday.",
                 "uploader": "alyssaph",
                 "attribution": "Alyssa P. Hacker",
-                "dt_uploaded": "2021-06-18T12:57:17Z",
                 "dt_taken": "2021-06-17T11:05:12Z",
             }
         }

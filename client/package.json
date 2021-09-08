@@ -1,5 +1,6 @@
 {
   "name": "tech-photo-form",
+  "homepage": "form",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -11,6 +12,7 @@
     "@types/react": "^17.0.11",
     "@types/react-dom": "^17.0.7",
     "antd": "^4.16.3",
+    "axios": "^0.21.4",
     "dayjs": "^1.10.5",
     "exif-js": "^2.3.0",
     "react": "^17.0.2",
