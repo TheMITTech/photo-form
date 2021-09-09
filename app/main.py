@@ -7,7 +7,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse
 from sqlalchemy.orm import Session
 
-from . import crud, models, schemas, storage
+from app import crud, models, schemas, storage
 from .database import SessionLocal, engine
 
 # models.Base.metadata.drop_all(bind=engine)
