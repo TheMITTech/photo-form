@@ -6,6 +6,7 @@ import {
   Space,
   Typography,
   Form,
+  message,
 } from "antd";
 import { useEffect, useState } from "react";
 import API from "../api.js";
@@ -66,6 +67,8 @@ export function PhotoViewer(props) {
             // but still TODO: have a slightly better auth system
             if (data.password == "techphoto") {
               setUnlocked(true);
+            } else {
+              message.error("Incorrect Password");
             }
           }}
         >
