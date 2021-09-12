@@ -1,5 +1,16 @@
 import axios from "axios";
+let development = process.env.NODE_ENV !== "production";
 
-export default axios.create({
-  baseURL: "http://localhost:5000/",
-});
+let api;
+
+if (development) {
+  api = axios.create({
+    baseURL: "http://localhost:5000/",
+  });
+} else {
+  api = axios.create({
+    baseURL: "http://photo-form.thetech.com",
+  });
+}
+
+export default api;
