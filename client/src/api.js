@@ -9,7 +9,7 @@ if (development) {
   });
 } else {
   api = axios.create({
-    baseURL: "http://photo-form.thetech.com",
+    baseURL: "https://photo-form.thetech.com",
   });
 }
 
