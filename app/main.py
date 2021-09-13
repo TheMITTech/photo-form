@@ -48,6 +48,7 @@ def root():
     return HTMLResponse(content=index_html, status_code=200)
     # return {"message": "Hello World"}
 
+@app.get("/photos", response_model=List[schemas.PhotoRead])
 @app.get("/photos/", response_model=List[schemas.PhotoRead])
 def read_photos(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     photos = crud.get_photos(db, skip=skip, limit=limit)
@@ -58,6 +59,7 @@ def read_photos(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     return photos
 
 
+@app.get("/photos_by_issue", response_model=List[schemas.PhotoRead])
 @app.get("/photos_by_issue/", response_model=List[schemas.PhotoRead])
 def read_photos_by_issue(volume: int, issue: int, db: Session = Depends(get_db)):
     photos = crud.get_photos_by_issue(db, volume, issue)
@@ -67,6 +69,7 @@ def read_photos_by_issue(volume: int, issue: int, db: Session = Depends(get_db))
     return photos
 
 
+@app.post("/create_photo", response_model=schemas.PhotoCreateResponse)
 @app.post("/create_photo/", response_model=schemas.PhotoCreateResponse)
 def create_photo(photo: schemas.PhotoCreate, db: Session = Depends(get_db)):
     db_photo = crud.create_photo(db=db, photo=photo)
