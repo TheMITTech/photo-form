@@ -19,7 +19,8 @@ app = FastAPI()
 origins = [
     "http://localhost",
     "http://localhost:3000",
-    "*"
+    "https://photo-form.thetech.com",
+    "http://photo-form.thetech.com",
 ]
 
 app.add_middleware(
