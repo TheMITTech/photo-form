@@ -3,6 +3,10 @@
 .main-container {
   padding: 20px;
   width: 60%; /* update to be adaptive with media queries */
+  @media only screen 
+    and (orientation: portrait) { 
+      width: 100%;
+  }
   margin: 0 auto;
 
   .image-info-form-container {
