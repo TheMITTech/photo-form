@@ -13,6 +13,7 @@ import {
   Spin,
 } from "antd";
 import { PhotoViewer } from "./components/PhotoViewer.js";
+import { PhotoSelector } from "./components/PhotoSelector"
 import "./App.scss";
 
 import { ImageWrapper } from "./components";
@@ -103,14 +104,15 @@ function PhotoForm(props) {
   const [photoList, setPhotoList] = useState([]); // we'll update as new photos are added
   const [uploaderKerb, setUploaderKerb] = useState([]);
 
-  function handlePhotoSubmit() {
-    console.log("submitted photo list to follow");
-    console.log(photoList);
+  function handlePhotoSubmit(onSuccess, values) {
+    console.log("submitted photo list to follow", photoList);
+    console.log("and values", values);
+    console.log("function to call on success", onSuccess);
 
-    let apiPhotoList = photoList.map((photoInfo, index) => ({
-      ...photoInfo["info"],
-      uploader: uploaderKerb,
-      filename: photoInfo["file"].name,
+    let apiPhotoList = photoList.map((photo, index) => ({
+      ...values["photos"][index],
+      uploader: values["uploader"],
+      filename: photo.name,
     }));
     console.log(apiPhotoList);
 
@@ -137,10 +139,12 @@ function PhotoForm(props) {
         }).then((upload_res) => {
           console.log("upload result");
           console.log(upload_res);
-          message.success({ content: "Done uploading!", msg_key });
+          message.success({ content: `Done uploading ${index + 1}/${photoList.length}!`, msg_key });
         });
-
-        setPhotoList([]);
+      
+      console.log("calling function to clear fields");
+      onSuccess();
+      setPhotoList([]);
 
         //   {
         //   method: "post",
@@ -184,94 +188,17 @@ function PhotoForm(props) {
       </Typography>
       <PhotoSelector
         addPhotos={(photosToAdd) => {
-          // add an object with info and the file object for each photo
-          let photoInfoList = photosToAdd.map((file) => ({
-            file: file,
-            info: {},
-          }));
-          setPhotoList(photoList.concat(photoInfoList));
+          console.log("adding photos. photoList is", photoList);
+          setPhotoList(photoList.concat(photosToAdd));
+          console.log("added", photosToAdd, "photo list is now", photoList);
         }}
-        handleKerbChange={(uploaderKerb) => {
-          setUploaderKerb(uploaderKerb);
-        }}
+        defaultVolume={props.defaultVolume}
+        defaultIssue={props.defaultIssue}
+        photoList={photoList}
+        handlePhotoSubmit={handlePhotoSubmit}
       />
-
-      {/* show image forms for each image */}
-      {imageForms}
-      <Divider />
-      {/* maybe it would be better to have one button for each one?
-          then we don't have to parse this grossness */}
-      <Button type="primary" onClick={handlePhotoSubmit}>
-        {`Submit ${photoList.length} Photo${photoList.length != 1 ? "s" : ""}`}
-      </Button>
     </div>
   );
 }
-
-function PhotoSelector(props) {
-  return (
-    <div className="photo-selector">
-      <Form>
-        <Form.Item label="Your Kerberos">
-          <Input
-            placeholder="kerb"
-            rules={[{ required: true }]}
-            onChange={(data) => {
-              props.handleKerbChange(data.target.value);
-            }}
-          />
-        </Form.Item>
-        <Form.Item>
-          <Dragger
-            name="file"
-            accept="image/png, image/jpeg"
-            multiple={true}
-            showUploadList={false}
-            beforeUpload={(file, fileList) => {
-              props.addPhotos(fileList);
-              return false;
-            }}
-          >
-            Drag or click to upload files. Please upload JPEG files.
-          </Dragger>
-        </Form.Item>
-      </Form>
-    </div>
-  );
-}
-
-// class PhotoSelector extends React.Component {
-//   constructor(props) {
-//     super(props);
-//     this.handleSubmit = this.handleSubmit.bind(this);
-//     this.fileInput = React.createRef();
-//   }
-
-//   handleImageChange(event) {
-//     this.props.updatePhotoList(event.target.files);
-//   }
-
-//   handleSubmit(event) {
-//     event.preventDefault();
-//     let fileArray = Array.from(this.fileInput.current.files);
-//     let fileString = fileArray.map((file) => file.name).join("\n");
-//     alert(
-//       `Selected ${fileArray.length} file${
-//         fileArray.length > 1 ? "s" : ""
-//       }:\n ${fileString}`
-//     );
-//   }
-
-//   render() {
-//     return (
-//       <input
-//         type="file"
-//         onChange={this.handleImageChange}
-//         ref={this.fileInput}
-//         multiple
-//       />
-//     );
-//   }
-// }
 
 export default App;
