@@ -130,7 +130,7 @@ function PhotoForm(props) {
         for (var key in res.data["upload_url"].fields) {
           formData.append(key, res.data["upload_url"].fields[key]);
         }
-        formData.append("file", photoList[index]["file"]);
+        formData.append("file", photoList[index]);
 
         API.post(res.data["upload_url"].url, formData, {
           headers: {
