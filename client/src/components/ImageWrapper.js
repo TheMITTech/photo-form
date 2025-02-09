@@ -72,6 +72,7 @@ function ImageForm(props) {
               <Option value="fto">FTO</Option>
               <Option value="rtz">RTZ</Option>
               <Option value="cl">CL</Option>
+              <Option value="sci">SCI</Option>
             </Select>
           </Form.Item>
           <Form.Item label="Volume" name="volume">
