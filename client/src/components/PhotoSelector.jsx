@@ -102,11 +102,11 @@ export function PhotoSelector(props) {
                 formRemoveMethod = (key) => remove(key);
                 return (
                 <>
-                {fields.map(field => {
+                {fields.map((field, index) => {
                     var imgFile = props.photoList[field.key];
                     console.log("image for key", field.key, "is", imgFile)
                     if (imgFile) return (
-                    <div className="image-info-form-container">
+                    <div className="image-info-form-container" key={index}>
                         <Divider />
                         <Title level={2}>
                             Image {field.key + 1}: {imgFile.name}
@@ -131,6 +131,7 @@ export function PhotoSelector(props) {
                             <Option value="fto">FTO</Option>
                             <Option value="rtz">RTZ</Option>
                             <Option value="cl">CL</Option>
+                            <Option value="sci">SCI</Option>
                             </Select>
                         </Form.Item>
                         <Form.Item
