@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import EXIF from "exif-js"; // for reading image data
-import * as dayjs from "dayjs";
+import dayjs from "dayjs";
 import {
   Typography,
   Upload,
