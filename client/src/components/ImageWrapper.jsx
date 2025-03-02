@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import EXIF from "exif-js"; // for reading image data
-import * as dayjs from "dayjs";
+import dayjs from "dayjs";
 import {
   Typography,
   Upload,
@@ -13,7 +13,7 @@ import {
   Divider,
   Space,
 } from "antd";
-import { DatePicker } from "../components";
+import { DatePicker } from ".";
 const { Title, Paragraph, Text, Link } = Typography;
 const { Option } = Select;
 

@@ -1,5 +1,5 @@
 import logo from "./logo.svg";
-import API from "./api";
+import API from "./api.js";
 import React, { useEffect, useState } from "react";
 import {
   Typography,
@@ -12,11 +12,11 @@ import {
   Divider,
   Spin,
 } from "antd";
-import { PhotoViewer } from "./components/PhotoViewer.js";
-import { PhotoSelector } from "./components/PhotoSelector"
+import { PhotoViewer } from "./components/PhotoViewer.jsx";
+import { PhotoSelector } from "./components/PhotoSelector.jsx";
 import "./App.scss";
 
-import { ImageWrapper } from "./components";
+import { ImageWrapper } from "./components/index.js";
 
 const { Title, Paragraph, Text, Link } = Typography;
 const { Dragger } = Upload;
@@ -139,12 +139,15 @@ function PhotoForm(props) {
         }).then((upload_res) => {
           console.log("upload result");
           console.log(upload_res);
-          message.success({ content: `Done uploading ${index + 1}/${photoList.length}!`, msg_key });
+          message.success({
+            content: `Done uploading ${index + 1}/${photoList.length}!`,
+            msg_key,
+          });
         });
-      
-      console.log("calling function to clear fields");
-      onSuccess();
-      setPhotoList([]);
+
+        console.log("calling function to clear fields");
+        onSuccess();
+        setPhotoList([]);
 
         //   {
         //   method: "post",
